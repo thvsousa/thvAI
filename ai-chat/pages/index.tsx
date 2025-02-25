@@ -14,16 +14,16 @@ export default function Chat() {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/chat", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: input }),
       });
 
-      const data = await res.json();
-
+      const data = await response.json();
       setMessages([...newMessages, { role: "thvAI", content: data.response }]);
-    } catch (error) {
+    } catch {
+      console.error("Erro ao obter resposta da IA.");
       setMessages([...newMessages, { role: "thvAI", content: "Erro ao obter resposta." }]);
     }
 
@@ -43,7 +43,7 @@ export default function Chat() {
               className={`p-3 max-w-xl rounded-2xl shadow-md ${
                 msg.role === "user" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"
               } whitespace-pre-line`}
-              dangerouslySetInnerHTML={{ __html: msg.content.replace(/\n/g, "<br />") }} // 🔥 Adiciona quebras de linha!
+              dangerouslySetInnerHTML={{ __html: msg.content.replace(/\n/g, "<br />") }} 
             />
           </div>
         ))}
