@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const response = await axios.post(
-      "https://deepseek.api.url", // Substitua pelo endpoint correto
+      "https://api.deepseek.com/chat",  // Confirme se esse é o endpoint correto!
       {
         prompt: message,
         max_tokens: 100,
@@ -22,6 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     return res.status(200).json({ response: response.data.text });
   } catch (error) {
-    return res.status(500).json({ response: "Erro ao se conectar com a thvAI" });
+    console.error("Erro na API:", error.response?.data || error.message);
+    return res.status(500).json({ response: "Erro ao obter resposta da IA" });
   }
 }
